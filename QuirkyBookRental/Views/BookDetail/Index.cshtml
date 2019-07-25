@@ -1,0 +1,278 @@
+﻿@model QuirkyBookRental.ViewModel.BookRentalViewModel
+@using QuirkyBookRental.Utility
+@{
+    ViewBag.Title = "Index";
+}
+@using (Html.BeginForm("Reserve", "BookRent"))
+{
+    @Html.AntiForgeryToken();
+
+<div class="row">
+    @* Book Image *@
+    <div class="col-sm-3 col-xs-4 image-book">
+        <img class="thumbnail-img" src="@Model.ImageUrl" alt="" style="width:100%;height:auto;padding:10px;" />
+    </div>
+
+    @* Book Details(Title/Author/Description) *@
+    <div class="col-sm-6 col-xs-8 content-book-main">
+        <div class="content-book-title-author">
+            <h2><b>@Model.Title</b></h2>
+            <h5>@Model.Author</h5>
+        </div>
+        <div>
+            <br />
+            <span>@Html.Raw(Model.Description)</span>
+        </div><br />
+    </div>
+    @* Rental Price and other book details *@
+
+    <div class="col-sm-3 col-xs-12 content-book-product-details">
+
+        <div>
+
+            @{
+                List<SelectListItem> listItem = new List<SelectListItem>();
+                listItem.Add(new SelectListItem
+                {
+                    Text = SD.TwoWeeks,
+                    Value = SD.TwoWeeksCount
+                });
+                listItem.Add(new SelectListItem
+                {
+                    Text = SD.OneMonth,
+                    Value = SD.OneMonthCount
+                });
+                listItem.Add(new SelectListItem
+                {
+                    Text = SD.TwoMonth,
+                    Value = SD.TwoMonthCount
+                });
+                listItem.Add(new SelectListItem
+                {
+                    Text = SD.ThreeMonth,
+                    Value = SD.ThreeMonthCount
+                });
+                listItem.Add(new SelectListItem
+                {
+                    Text = SD.FourMonth,
+                    Value = SD.FourMonthCount
+                });
+                listItem.Add(new SelectListItem
+                {
+                    Text = SD.FiveMonth,
+                    Value = SD.FiveMonthCount
+                });
+                listItem.Add(new SelectListItem
+                {
+                    Text = SD.SixMonth,
+                    Value = SD.SixMonthCount
+                });
+            }
+            @if (Model.RentalPriceOneMonth != 0 && Model.RentalPriceSixMonth != 0)
+            {
+                //User has logged in and they are not admin
+
+                <div class="form-control" style="height:500px;">
+                    <div class="input-group" style="height:30px">
+                        <label>MSRP:</label>
+                        <label id="lblMSRP" style="font-weight:normal;">$@(Model.Price)</label><br />
+                    </div>
+                    <hr />
+
+
+                    @if (Model.RentalCount == 10)
+                    {
+                    <div id="divDiscountPrice" class="input-group" style="height:90px;">
+                        <label>Rental Price : </label><br />
+                        <br />
+                        <label id="lblOneMonth" style="font-weight:normal;">Two Weeks :<strike>$@(Model.RentalPriceTwoWeeks)</strike> </label>
+                        <label id="lblOneMonth" style="font-weight:normal;color:green;">$@(Model.RentalPriceTwoWeeks - (Model.RentalPriceTwoWeeks * 20 / 100)) </label>
+                        <br />
+                        <label id="lblOneMonth" style="font-weight:normal;">One Month :<strike>$@(Model.RentalPriceOneMonth)</strike> </label>
+                        <label id="lblOneMonth" style="font-weight:normal;color:green;">$@(Model.RentalPriceOneMonth - (Model.RentalPriceOneMonth * 20 / 100)) </label>
+
+                        <br />
+                        <label id="lblOneMonth" style="font-weight:normal;">Two Months : <strike>$@(Model.RentalPriceTwoMonth)</strike></label>
+                        <label id="lblOneMonth" style="font-weight:normal;color:green;">$@(Model.RentalPriceTwoMonth - (Model.RentalPriceTwoMonth * 20 / 100)) </label>
+                        <br />
+                        <label id="lblOneMonth" style="font-weight:normal;">Three Months : <strike>$@(Model.RentalPriceThreeMonth)</strike></label>
+                        <label id="lblOneMonth" style="font-weight:normal;color:green;">$@(Model.RentalPriceThreeMonth - (Model.RentalPriceThreeMonth * 20 / 100)) </label>
+                        <br />
+                        <label id="lblOneMonth" style="font-weight:normal;">Four Months : <strike>$@(Model.RentalPriceFourMonth)</strike></label>
+                        <label id="lblOneMonth" style="font-weight:normal;color:green;">$@(Model.RentalPriceFourMonth - (Model.RentalPriceFourMonth * 20 / 100)) </label>
+                        <br />
+                        <label id="lblOneMonth" style="font-weight:normal;">Five Months : <strike>$@(Model.RentalPriceFiveMonth)</strike></label>
+                        <label id="lblOneMonth" style="font-weight:normal;color:green;">$@(Model.RentalPriceFiveMonth - (Model.RentalPriceFiveMonth * 20 / 100)) </label>
+                        <br />
+                        <label id="lblOneMonth" style="font-weight:normal;">Six Months : <strike>$@(Model.RentalPriceSixMonth)</strike></label>
+                        <label id="lblOneMonth" style="font-weight:normal;color:green;">$@(Model.RentalPriceSixMonth - (Model.RentalPriceSixMonth * 20 / 100)) </label>
+
+                        <label id="lblDiscount" style="font-size:12px;font-weight:normal;color:green;">Discount on every 11th book rental!</label>
+                    </div>
+                    }
+                    else
+                    {
+                        <div id="divRegularPrice" class="input-group" style="height:90px;">
+                            <label>Rental Price : </label><br />
+                            <label id="lblOneMonth" style="font-weight:normal;">Two Weeks : $@(Model.RentalPriceTwoWeeks)</label>
+                            <br />
+                            <label id="lblOneMonth" style="font-weight:normal;">One Month : $@(Model.RentalPriceOneMonth)</label>
+                            <br />
+                            <label id="lblOneMonth" style="font-weight:normal;">Two Months : $@(Model.RentalPriceTwoMonth)</label>
+                            <br />
+                            <label id="lblOneMonth" style="font-weight:normal;">Three Months : $@(Model.RentalPriceThreeMonth)</label>
+                            <br />
+                            <label id="lblOneMonth" style="font-weight:normal;">Four Months : $@(Model.RentalPriceFourMonth)</label>
+                            <br />
+                            <label id="lblOneMonth" style="font-weight:normal;">Five Months : $@(Model.RentalPriceFiveMonth)</label>
+                            <br />
+                            <label id="lblOneMonth" style="font-weight:normal;">Six Months : $@(Model.RentalPriceSixMonth)</label>
+
+                        </div>
+                    }
+
+                    <label>Select your rental duration : </label><br />
+                    @Html.DropDownListFor(m => m.RentalDuration, listItem, new { @class = "form-control" })
+                    <span style="font-size:12px;">Reserve before 4pm for same day pickup.<br /><br /></span>
+
+                    @if (Model.Avaibility > 0 && Model.UserStatus == false)
+                    {
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Reserve
+                        </button>
+                    }
+                    @if (Model.UserStatus == true)
+                    {
+                        <button type="submit" class="btn btn-danger" disabled="disabled">
+                            <span class="glyphicon glyphicon-thumbs-down"></span>&nbsp; Disabled Account
+                        </button>
+                        <br>
+                        <span style="font-size:12px;">Visit administration to enable your account<br /><br /></span>
+                        <br>
+                    }
+                    @if (Model.Avaibility == 0 && Model.UserStatus == false)
+                    {
+                        <button type="submit" class="btn btn-danger" disabled="disabled">
+                            <span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Unavailable
+                        </button>
+
+                    }
+                    <br>
+
+                </div>
+            }
+            else
+            {
+                <div class="form-control" style="height:150px;">
+                    <div class="input-group" style="height:30px;">
+                        <label>MSRP:</label>
+                        <label id="lblMSRP" style="font-weight:normal;">$@(Model.Price)</label><br />
+                    </div>
+                    <hr />
+                    @if (User.IsInRole(SD.AdminUserRole) && Model.Avaibility > 0)
+                    {
+                        //Admin user with Create button
+                        @Html.ActionLink("Create Rental", "Create", "BookRent",
+                            new { isbn = Model.ISBN, title = Model.Title }, new { @class = "btn btn-primary" })
+                    }
+                    else
+                    {
+                        if (User.IsInRole(SD.AdminUserRole) && Model.Avaibility == 0)
+                        {
+                            //Admin user with book not available
+                            <button type="submit" class="btn btn-danger" disabled>
+                                <span class="glyphicon glyphicon-thumbs-down"></span>Unavailable
+                            </button>
+                        }
+                        else
+                        {
+                            //User not logged in
+                            <span>Login to unlock the rental price!</span>
+                        }
+                    }
+                </div>
+            }
+        </div>
+        @*--------------------------------------------------------------------------*@
+        <br>
+        @*if user in logged in show favourite buttons*@
+        @if (Model.RentalPriceOneMonth != 0 && Model.RentalPriceSixMonth != 0)
+        {
+            if (Model.FavouriteID != 0)
+            {
+                <div>
+                    @Html.Partial("_FavouriteRemoveButtonPartial")
+                </div>
+            }
+            else
+            {
+                <div>
+                    @Html.Partial("_FavouriteAddButtonPartial")
+                </div>
+            }
+        }
+
+        @*-----------------------------------------------------------------------------*@
+        <h4 class="product-details-heading">Product Details</h4>
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(m => m.ISBN)
+            </dt>
+            <dd>
+                &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(m => m.ISBN)
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(m => m.Genre)
+            </dt>
+            <dd>
+                &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(m => m.Genre.Name)
+            </dd>
+        </dl>
+        
+        
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(m => m.Publisher)
+            </dt>
+            <dd>
+                &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(m => m.Publisher)
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(m => m.PublicationDate)
+            </dt>
+            <dd>
+                &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(m => m.PublicationDate)
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(m => m.ProductDimensions)
+            </dt>
+            <dd>
+                &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(m => m.ProductDimensions)
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(m => m.Pages)
+            </dt>
+            <dd>
+                &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(m => m.Pages)
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(m => m.Price)
+            </dt>
+            <dd>
+                &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(m => m.Price)
+            </dd>
+        </dl>
+        @Html.HiddenFor(m => m.BookId)
+    </div>
+</div>
+}

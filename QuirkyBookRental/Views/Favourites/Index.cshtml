@@ -1,0 +1,59 @@
+﻿@model IEnumerable<QuirkyBookRental.Models.Favourites>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>My Favourites</h2>
+<table class="table table-condensed table-hover">
+    <tr class="table-header">
+        <th>
+            @Html.DisplayNameFor(model => model.Book.ImageUrl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.ISBN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.Author)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.Genre.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.Price)
+        </th>
+        
+        
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td width="20%">
+            <img class="" src="@item.Book.ImageUrl" alt="" style="width:75%;height:65%;padding:0px;" />
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Book.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Book.ISBN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Book.Author)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Book.Genre.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Book.Price)
+        </td>
+        <td>
+            @Html.ActionLink("Rent Now", "Index", "BookDetail", new { id=item.Book.Id},null)
+        </td>
+
+    </tr>
+    }
+</table>
+

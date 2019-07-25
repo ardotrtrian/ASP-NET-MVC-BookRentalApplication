@@ -1,0 +1,36 @@
+﻿@model QuirkyBookRental.ViewModel.ThumbnailBoxViewModel
+
+<style>
+    .thumbnail :hover img {
+        transform: scale(1.06)
+    }
+    /*.thumbnail .caption {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }*/
+
+
+</style>
+
+
+<div class="row">
+    @if (Model.Thumbnails != null)
+    {
+        foreach (var thumbnail in Model.Thumbnails)
+        {
+            <div class="col-xs-4 col-md-2">
+                <div class="thumbnail">
+                    <div class="thumbnail-img-container">
+                        <a href="@thumbnail.Link"><img class="thumbnail-img" src="@thumbnail.ImageUrl" alt="" /></a>
+                    </div>
+                    <div class="caption">
+                        <h3><a href="@thumbnail.Link"><font size="4" ><b>@thumbnail.Title</b></font></a></h3>
+                        <p>by @Html.Raw(thumbnail.Author)</p>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

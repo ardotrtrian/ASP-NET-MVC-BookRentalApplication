@@ -1,0 +1,74 @@
+﻿@using QuirkyBookRental.Utility
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - EU Library App</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<style>
+    .footer {
+        height: 50px;
+        background-color: #1967be;
+    }
+    .navbar-inversee {
+        background-color: #1967be;
+        background-image: none;
+    }
+    .dropdown.open > a, .dropdown.open > a:hover, .dropdown.open > a:active, .dropdown.open > a:focus {
+        background-color: transparent !important;
+        background-image: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+</style>
+
+<body>
+    <div class="navbar navbar-inverse navbar-inversee navbar-fixed-top ">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("EU Library App", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Rental Status", "Index", "BookRent")</li>
+                    @if (User.IsInRole(SD.AdminUserRole))
+                    {
+                        @Html.Partial("_AdminMenuPartial")
+                    }
+                    @if (User.IsInRole(SD.EndUserRole))
+                    {
+                       <li> @Html.ActionLink("Favourites","Index","Favourites")</li>
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; @DateTime.Now.Year - EU Library Application</p>
+        </div>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bookRentalJs")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
